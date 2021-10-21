@@ -5,16 +5,16 @@ import org.springframework.stereotype.Component;
 
 import com.kelsonthony.algafood.di.modelo.Cliente;
 
-//@Primary
-@Qualifier("normal")
+@Qualifier("urgente")
 @Component
-public class NotificadorEmail implements Notificador {
+public class NotificadorSMS implements Notificador {
 	
+
 	@Override
 	public void notificar(Cliente cliente, String mensagem) {
 		
-		System.out.printf("Notificação %s através do e-mail %s: %s\n",
-				cliente.getNome(), cliente.getEmail(), mensagem);
+		System.out.printf("Notificação %s por SMS através do telefone %s: %s\n",
+				cliente.getNome(), cliente.getTelefone(), mensagem);
 	}
 
 	
