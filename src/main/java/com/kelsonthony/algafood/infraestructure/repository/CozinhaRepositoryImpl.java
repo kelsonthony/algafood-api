@@ -18,7 +18,6 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 	private EntityManager manager;
 
 	@Override
-	
 	public List<Cozinha> todas() {
 		return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
 		
