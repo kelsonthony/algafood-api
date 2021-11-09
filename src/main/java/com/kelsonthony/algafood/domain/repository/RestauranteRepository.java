@@ -7,7 +7,7 @@ import com.kelsonthony.algafood.domain.model.Restaurante;
 public interface RestauranteRepository {
 
 	List<Restaurante> todos();
-	Restaurante buscar(Long id);
+	Restaurante buscar(Long Id);
 	Restaurante salvar(Restaurante restaurante);
-	void remover(Restaurante restaurante);
+	void remover(Long Id);
 }

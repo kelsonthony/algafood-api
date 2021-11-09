@@ -26,7 +26,7 @@ public class CadastroCozinhaService {
 		
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um casatro de cozinha com código %d", cozinhaId));
+					String.format("Não existe um cadastro de cozinha com código %d", cozinhaId));
 		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(

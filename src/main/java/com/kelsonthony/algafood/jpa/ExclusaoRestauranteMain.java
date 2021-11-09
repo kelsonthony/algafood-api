@@ -16,12 +16,14 @@ public class ExclusaoRestauranteMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		RestauranteRepository restauranteRepository = applicationContext.getBean(RestauranteRepository.class);
-		
-		Restaurante restaurante = new Restaurante();
-		restaurante.setId(1l);
-		
-		restauranteRepository.remover(restaurante);
+		/*
+		 * RestauranteRepository restauranteRepository =
+		 * applicationContext.getBean(RestauranteRepository.class);
+		 * 
+		 * Restaurante restaurante = new Restaurante(); restaurante.setId(1l);
+		 * 
+		 * restauranteRepository.remover(restaurante);
+		 */
 		
 	}
 
