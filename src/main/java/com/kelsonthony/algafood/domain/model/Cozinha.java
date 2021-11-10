@@ -19,7 +19,6 @@ import lombok.EqualsAndHashCode;
 @Table(name = "tab_cozinhas")
 public class Cozinha {
 
-	//@JsonIgnore
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
