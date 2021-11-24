@@ -41,6 +41,14 @@ public class RestauranteController {
 	@GetMapping
 	public List<Restaurante> listar() {
 		return restauranteRepository.findAll();
+		/*
+		 * List<Restaurante> restaurantes = restauranteRepository.findAll();
+		 * 
+		 * System.out.println("O nome da cozinha é:");
+		 * System.out.println(restaurantes.get(0).getCozinha().getNome());
+		 * 
+		 * return restaurantes;
+		 */
 	}
 
 	@GetMapping("/{restauranteId}")
@@ -68,12 +76,14 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{restauranteId}")
-	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
+	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, 
+			@RequestBody Restaurante restaurante) {
 		try {
 			Optional<Restaurante> restauranteAtual = restauranteRepository.findById(restauranteId);
 
 			if (restauranteAtual.isPresent()) {
-				BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id");
+				BeanUtils.copyProperties(restaurante, restauranteAtual.get(), 
+						"id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 
 				Restaurante restauranteSalva = cadastroRestauranteService.salvar(restauranteAtual.get());
 				return ResponseEntity.ok(restauranteSalva);

@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
@@ -18,7 +17,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tab_cidades")
 public class Cidade {
 
 	@EqualsAndHashCode.Include
@@ -26,7 +24,7 @@ public class Cidade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome_cidade", nullable = false)
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	
 	@ManyToOne
