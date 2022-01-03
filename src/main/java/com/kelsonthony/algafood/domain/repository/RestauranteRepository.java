@@ -16,17 +16,12 @@ public interface RestauranteRepository
 		extends CustomJpaRepository<Restaurante, Long>, 
 		RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
 	
-	//@Query("from Restaurante r join r.cozinha left join fetch r.formasPagamento")
 	@Query("from Restaurante r join r.cozinha")
 	List<Restaurante> findAll();
 
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
-	// @Query("from Restaurante where nome like %:nome% and cozinha.id = :id")
 	List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinhaId);
-
-	// List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long
-	// cozinhaId);
 
 	Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
 
