@@ -1,6 +1,6 @@
 package com.kelsonthony.algafood.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class Usuario {
 	@JsonIgnore
 	@CreationTimestamp
 	@JoinColumn(name = "data_cadastro", nullable = false, columnDefinition = "datetime")
-	private LocalDateTime dataCadastro;
+	private OffsetDateTime dataCadastro;
 
 	@JsonIgnore
 	@ManyToMany
