@@ -53,7 +53,7 @@ public class CadastroCozinhaIT {
 	public void deveFalhar_QuandoExcluirCozinhaEmUso() {
 		
 		assertThrows(EntidadeEmUsoException.class, () -> {
-			cadastroCozinhaService.excluir(1);
+			cadastroCozinhaService.excluir(1L);
 		});
 	}
 	

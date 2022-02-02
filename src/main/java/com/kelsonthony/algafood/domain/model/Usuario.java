@@ -1,8 +1,8 @@
 package com.kelsonthony.algafood.domain.model;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,8 +48,23 @@ public class Usuario {
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario_id"), 
-	inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	private List<Grupo> grupos = new ArrayList<>();
+	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
+	private Set<Grupo> grupos = new HashSet<>();
+
+	public Boolean senhaCoincideCom(String senha) {
+		return getSenha().equals(senha);
+	}
+
+	public Boolean senhaNaoCoincideCom(String senha) {
+		return !senhaCoincideCom(senha);
+	}
+	
+	public Boolean removerGrupo(Grupo grupo) {
+		return getGrupos().remove(grupo);
+	}
+	
+	public Boolean adicionarGrupo(Grupo grupo) {
+		return getGrupos().add(grupo);
+	}
 
 }

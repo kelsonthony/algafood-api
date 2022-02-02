@@ -20,8 +20,10 @@ import com.kelsonthony.algafood.api.assembler.RestauranteInputDisassembler;
 import com.kelsonthony.algafood.api.assembler.RestauranteModelAssembler;
 import com.kelsonthony.algafood.api.model.RestauranteModel;
 import com.kelsonthony.algafood.api.model.input.RestauranteInput;
-import com.kelsonthony.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.kelsonthony.algafood.domain.exception.CidadeNaoEncontradaException;
+import com.kelsonthony.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
+import com.kelsonthony.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.kelsonthony.algafood.domain.model.Restaurante;
 import com.kelsonthony.algafood.domain.repository.RestauranteRepository;
 import com.kelsonthony.algafood.domain.service.CadastroRestauranteService;
@@ -35,10 +37,10 @@ public class RestauranteController {
 
 	@Autowired
 	private CadastroRestauranteService cadastroRestauranteService;
-	
+
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
-	
+
 	@Autowired
 	private RestauranteInputDisassembler restauranteInputDisassembler;
 
@@ -62,7 +64,7 @@ public class RestauranteController {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restaurante));
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 
@@ -72,28 +74,67 @@ public class RestauranteController {
 	public RestauranteModel atualizar(@PathVariable Long restauranteId,
 			@RequestBody @Valid RestauranteInput restauranteInput) {
 		try {
-			//Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
 			Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(restauranteId);
-			
-			restauranteInputDisassembler.copyToDomainOjbect(restauranteInput, restauranteAtual);
 
-			//BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
-			//		"produtos");
+			restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
 			return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restauranteAtual));
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 
 	}
 
+	@PutMapping("/{restauranteId}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativar(@PathVariable Long restauranteId) {
+		cadastroRestauranteService.ativar(restauranteId);
+	}
+
+	@DeleteMapping("/{restauranteId}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativar(@PathVariable Long restauranteId) {
+		cadastroRestauranteService.inativar(restauranteId);
+	}
+
 	@DeleteMapping("/{restauranteId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.excluir(restauranteId);
 
 	}
 
+	@PutMapping("/{restauranteId}/abertura")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void abrir(@PathVariable Long restauranteId) {
+		cadastroRestauranteService.abrir(restauranteId);
+	}
 
+	@PutMapping("/{restauranteId}/fechamento")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void fechar(@PathVariable Long restauranteId) {
+		cadastroRestauranteService.fechar(restauranteId);
+	}
+
+	@PutMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestauranteService.ativar(restauranteIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
+
+	@DeleteMapping("/ativacoes")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestauranteService.inativar(restauranteIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
 
 }

@@ -6,8 +6,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kelsonthony.algafood.domain.exception.EntidadeEmUsoException;
 import com.kelsonthony.algafood.domain.exception.CidadeNaoEncontradaException;
+import com.kelsonthony.algafood.domain.exception.EntidadeEmUsoException;
 import com.kelsonthony.algafood.domain.model.Cidade;
 import com.kelsonthony.algafood.domain.model.Estado;
 import com.kelsonthony.algafood.domain.repository.CidadeRepository;

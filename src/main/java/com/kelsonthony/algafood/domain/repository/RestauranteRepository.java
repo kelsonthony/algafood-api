@@ -16,7 +16,8 @@ public interface RestauranteRepository
 		extends CustomJpaRepository<Restaurante, Long>, 
 		RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
 	
-	@Query("from Restaurante r join r.cozinha")
+	//@Query("from Restaurante r join r.cozinha")
+	@Query("from Restaurante r join fetch r.cozinha")
 	List<Restaurante> findAll();
 
 	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
