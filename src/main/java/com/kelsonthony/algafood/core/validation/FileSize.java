@@ -16,16 +16,14 @@ import javax.validation.Payload;
 
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { MultiploValidator.class })
-public @interface Multiplo {
+@Constraint(validatedBy = { FileSizeValidator.class })
+public @interface FileSize {
 
-	String message() default "tamanho do arquivo inválido";
+	String message() default "{Multiplo.invalido}";
 	
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
-	
-	int numero();
-	
+
 	String max();
 }

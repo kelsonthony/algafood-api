@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,17 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.ImmutableMap;
 import com.kelsonthony.algafood.api.assembler.PedidoInputDisassembler;
 import com.kelsonthony.algafood.api.assembler.PedidoModelAssembler;
 import com.kelsonthony.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.kelsonthony.algafood.api.model.PedidoModel;
 import com.kelsonthony.algafood.api.model.PedidoResumoModel;
 import com.kelsonthony.algafood.api.model.input.PedidoInput;
+import com.kelsonthony.algafood.core.data.PageableTranslator;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
+import com.kelsonthony.algafood.domain.filter.PedidoFilter;
 import com.kelsonthony.algafood.domain.model.Pedido;
 import com.kelsonthony.algafood.domain.model.Usuario;
 import com.kelsonthony.algafood.domain.repository.PedidoRepository;
 import com.kelsonthony.algafood.domain.service.EmissaoPedidoService;
+import com.kelsonthony.algafood.infrastructure.repository.spec.PedidoSpecs;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -46,11 +54,21 @@ public class PedidoController {
 	private PedidoInputDisassembler pedidoInputDisassembler;
 
 	@GetMapping
-	public List<PedidoResumoModel> listar() {
+	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
+			@PageableDefault(size = 10) Pageable pageable) {
 
-		List<Pedido> todosPedidos = pedidoRepository.findAll();
+		pageable = traduzirPageable(pageable);
+		
+		Page<Pedido> pedidosPage = pedidoRepository.findAll(
+				PedidoSpecs.usandoFiltro(filtro), pageable);
 
-		return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
+		List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler
+				.toCollectionModel(pedidosPage.getContent());
+		
+		Page<PedidoResumoModel> pedidosModelPage = new PageImpl<>(pedidosModel, 
+				pageable, pedidosPage.getTotalElements());
+		
+		return pedidosModelPage;
 	}
 
 	/*
@@ -102,5 +120,16 @@ public class PedidoController {
 		} catch (Exception e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
+	}
+	
+	private Pageable traduzirPageable(Pageable apiPageable) {
+		var mapeamento = ImmutableMap.of(
+				"codigo", "codigo",
+				"restaurante.nome", "restaurante.nome",
+				"nomeCliente", "cliente.nome",
+				"valorTotal", "valorTotal"
+				);
+		
+		return PageableTranslator.translate(apiPageable, mapeamento);
 	}
 }
