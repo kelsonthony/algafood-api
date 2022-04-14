@@ -41,7 +41,7 @@ public class EmissaoPedidoService {
 		validarPedido(pedido);
 		validarItens(pedido);
 		
-		pedido.setTaxafrete(pedido.getRestaurante().getTaxaFrete());
+		pedido.setTaxaFrete(pedido.getRestaurante().getTaxaFrete());
 		pedido.calcularValotTotal();
 		
 		return pedidoRepository.save(pedido);

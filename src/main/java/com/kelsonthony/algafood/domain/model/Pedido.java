@@ -45,7 +45,7 @@ public class Pedido {
 	private BigDecimal subtotal;
 
 	@Column(name = "taxa_frete", nullable = false)
-	private BigDecimal taxafrete;
+	private BigDecimal taxaFrete;
 
 	private BigDecimal valorTotal;
 
@@ -86,7 +86,7 @@ public class Pedido {
 				.map(item -> item.getPrecoTotal())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		
-		this.valorTotal = this.subtotal.add(this.taxafrete);
+		this.valorTotal = this.subtotal.add(this.taxaFrete);
 	}
 	
 	public void confirmar() {
