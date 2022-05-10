@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kelsonthony.algafood.domain.model.Pedido;
-import com.kelsonthony.algafood.domain.service.EnvioEmailService.Mensagem;
+import com.kelsonthony.algafood.domain.repository.PedidoRepository;
 
 @Service
 public class FluxoPedidoService {
@@ -15,38 +15,29 @@ public class FluxoPedidoService {
 	private EmissaoPedidoService emissaoPedidoService;
 	
 	@Autowired
-	private EnvioEmailService envioMail;
-
+	private PedidoRepository pedidoRepository;
+	
 	@Transactional
 	public void confirmar(String codigoPedido) {
 		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
 		pedido.confirmar();
-	
-		var mensagem = Mensagem.builder()
-				.assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado")
-				.corpo("pedido-confirmado.html")
-				//.corpo("pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado")
-				.variavel("pedido", pedido)
-				.destinatario(pedido.getCliente().getEmail())
-				.build();
-		
-		envioMail.enviar(mensagem);
+		pedidoRepository.save(pedido);
 	
 	}
 
 	@Transactional
 	public void cancelar(String codigoPedido) {
 		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
-
 		pedido.cancelar();
+		pedidoRepository.save(pedido);
 
 	}
 
 	@Transactional
 	public void entregar(String codigoPedido) {
 		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
-
 		pedido.entregar();
+		pedidoRepository.save(pedido);
 	}
 
 }
