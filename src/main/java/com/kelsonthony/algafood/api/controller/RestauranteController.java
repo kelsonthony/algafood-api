@@ -30,6 +30,7 @@ import com.kelsonthony.algafood.domain.model.Restaurante;
 import com.kelsonthony.algafood.domain.repository.RestauranteRepository;
 import com.kelsonthony.algafood.domain.service.CadastroRestauranteService;
 
+//@CrossOrigin(maxAge = 10)
 @RestController
 @RequestMapping(value = "/restaurantes")
 public class RestauranteController {
