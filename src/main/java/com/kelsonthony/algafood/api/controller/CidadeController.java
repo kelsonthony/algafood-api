@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,15 +21,17 @@ import com.kelsonthony.algafood.api.assembler.CidadeInputDisassembler;
 import com.kelsonthony.algafood.api.assembler.CidadeModelAssembler;
 import com.kelsonthony.algafood.api.model.CidadeModel;
 import com.kelsonthony.algafood.api.model.input.CidadeInput;
+import com.kelsonthony.algafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.kelsonthony.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
 import com.kelsonthony.algafood.domain.model.Cidade;
 import com.kelsonthony.algafood.domain.repository.CidadeRepository;
 import com.kelsonthony.algafood.domain.service.CadastroCidadeService;
 
+
 @RestController
-@RequestMapping(value = "/cidades")
-public class CidadeController {
+@RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
+public class CidadeController implements CidadeControllerOpenApi {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
@@ -73,7 +76,8 @@ public class CidadeController {
 	}
 
 	@PutMapping("/{cidadeId}")
-	public CidadeModel atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidadeInput) {
+	public CidadeModel atualizar(@PathVariable Long cidadeId, 
+			@RequestBody @Valid CidadeInput cidadeInput) {
 		try {
 			Cidade cidadeAtual = cadastroCidadeService.buscarOuFalhar(cidadeId);
 

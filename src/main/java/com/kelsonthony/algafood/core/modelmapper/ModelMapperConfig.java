@@ -28,7 +28,8 @@ public class ModelMapperConfig {
 
 		var modelMapper = new ModelMapper();
 
-		var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(Endereco.class, EnderecoModel.class);
+		var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(
+				Endereco.class, EnderecoModel.class);
 
 		enderecoToEnderecoModelTypeMap.<String>addMapping(
 				enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(),

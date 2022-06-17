@@ -2,6 +2,7 @@ package com.kelsonthony.algafood.api.model.input;
 
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ public class GrupoInput {
 
 	private Long id;
 
+	@ApiModelProperty(example = "Gerente", required = true)
 	@NotBlank
 	private String nome;
 

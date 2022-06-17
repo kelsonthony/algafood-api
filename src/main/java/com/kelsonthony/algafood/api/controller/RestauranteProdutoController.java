@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.kelsonthony.algafood.api.assembler.ProdutoInputDisassembler;
 import com.kelsonthony.algafood.api.assembler.ProdutoModelAssembler;
 import com.kelsonthony.algafood.api.model.ProdutoModel;
 import com.kelsonthony.algafood.api.model.input.ProdutoInput;
+import com.kelsonthony.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import com.kelsonthony.algafood.domain.model.Produto;
 import com.kelsonthony.algafood.domain.model.Restaurante;
 import com.kelsonthony.algafood.domain.repository.ProdutoRepository;
@@ -27,8 +29,8 @@ import com.kelsonthony.algafood.domain.service.CadastroProdutoService;
 import com.kelsonthony.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/produtos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
 	@Autowired
 	private CadastroProdutoService cadastroProdutoService;
@@ -102,5 +104,7 @@ public class RestauranteProdutoController {
 
 		return produtoModelAssembler.toModel(produtoAtual);
 	}
+
+
 
 }

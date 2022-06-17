@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,16 +27,16 @@ import com.kelsonthony.algafood.api.assembler.FormaPagamentoInputDisassembler;
 import com.kelsonthony.algafood.api.assembler.FormaPagamentoModelAssembler;
 import com.kelsonthony.algafood.api.model.FormaPagamentoModel;
 import com.kelsonthony.algafood.api.model.input.FormaPagamentoInput;
+import com.kelsonthony.algafood.api.openapi.controller.FormaPagamentoControllerOpenApi;
 import com.kelsonthony.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
 import com.kelsonthony.algafood.domain.model.FormaPagamento;
 import com.kelsonthony.algafood.domain.repository.FormaPagamentoRepository;
 import com.kelsonthony.algafood.domain.service.CadastroFormaPagamentoService;
 
-//@CrossOrigin
 @RestController
-@RequestMapping(value = "/pagamentos")
-public class FormaPagamentoController {
+@RequestMapping(path = "/formas-pagamentos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class FormaPagamentoController implements FormaPagamentoControllerOpenApi {
 
 	@Autowired
 	private FormaPagamentoRepository formaPagamentoRepository;
@@ -49,27 +50,6 @@ public class FormaPagamentoController {
 	@Autowired
 	private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 	
-	
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 * @GetMapping
-	public ResponseEntity<List<FormaPagamentoModel>> listar() {
-				
-		List<FormaPagamento> todasFormasPagamentos = formaPagamentoRepository.findAll();
-		
-		List<FormaPagamentoModel> formasPagamentoModel = formaPagamentoModelAssembler
-				.toCollectionModel(todasFormasPagamentos);
-		
-		return ResponseEntity.ok()
-				//.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePrivate())
-				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
-				//.cacheControl(CacheControl.noCache())
-				//.cacheControl(CacheControl.noStore()) // sem cache
-				.body(formasPagamentoModel);
-	}
-	 */
 	
 	@GetMapping
 	public ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request) {
