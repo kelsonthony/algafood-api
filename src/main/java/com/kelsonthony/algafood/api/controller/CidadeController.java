@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kelsonthony.algafood.api.ResourceUriHelper;
 import com.kelsonthony.algafood.api.assembler.CidadeInputDisassembler;
 import com.kelsonthony.algafood.api.assembler.CidadeModelAssembler;
 import com.kelsonthony.algafood.api.model.CidadeModel;
@@ -46,10 +50,31 @@ public class CidadeController implements CidadeControllerOpenApi {
 	private CidadeInputDisassembler cidadeInputDisassembler;
 
 	@GetMapping
-	public List<CidadeModel> listar() {
+	public CollectionModel<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
 		
-		return cidadeModelAssembler.toCollectioModel(todasCidades);
+		List<CidadeModel> cidadesModel = cidadeModelAssembler.toCollectioModel(todasCidades);
+		
+		cidadesModel.forEach(cidadeModel -> {
+			cidadeModel.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(CidadeController.class)
+					.buscar(cidadeModel.getId())).withSelfRel());
+			
+			cidadeModel.add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(CidadeController.class)
+					.listar()).withRel("cidades"));
+			
+			cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(
+					WebMvcLinkBuilder.methodOn(EstadoController.class)
+					.buscar(cidadeModel.getEstado().getId())).withSelfRel());
+		});
+		
+		//return new CollectonModel<>(cidadesModel);
+		CollectionModel<CidadeModel> cidadesCollectionModel = CollectionModel.of(cidadesModel);
+		
+		cidadesCollectionModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+		
+		return cidadesCollectionModel;
 	}
 
 	@GetMapping("/{cidadeId}")
@@ -57,7 +82,35 @@ public class CidadeController implements CidadeControllerOpenApi {
 		
 		Cidade cidade =  cadastroCidadeService.buscarOuFalhar(cidadeId);
 		
-		return cidadeModelAssembler.toModel(cidade);
+		CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+		
+		Link link = WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(CidadeController.class)
+				.buscar(cidadeModel.getId())).withSelfRel();
+		
+		cidadeModel.add(link);
+		
+		//cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+			//	.slash(cidadeModel.getId()).withSelfRel());
+		
+		//cidadeModel.add(new Link("http://localhost:8080/cidades/1", IanaLinkRelations.SELF));
+		//cidadeModel.add(new Link("http://localhost:8080/cidades/1"));
+		
+		//cidadeModel.add(new Link("http://localhost:8080/cidades", "cidades"));
+		//cidadeModel.add(new Link("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+		cidadeModel.add(WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(CidadeController.class)
+				.listar()).withRel("cidades"));
+		
+		
+		//cidadeModel.getEstado().add(new Link("http://localhost:8080/estados/1"));
+		//cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+			//	.slash(cidadeModel.getEstado().getId()).withSelfRel());
+		cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(EstadoController.class)
+				.buscar(cidadeModel.getEstado().getId())).withSelfRel());
+		
+		return cidadeModel;
 	}
 
 	@PostMapping
@@ -68,7 +121,11 @@ public class CidadeController implements CidadeControllerOpenApi {
 			
 			cidade = cadastroCidadeService.salvar(cidade);
 			
-			return cidadeModelAssembler.toModel(cidade);
+			CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+			
+			ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+			
+			return cidadeModel;
 		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage());
 		}
