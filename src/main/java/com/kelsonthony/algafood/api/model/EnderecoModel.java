@@ -1,12 +1,16 @@
 package com.kelsonthony.algafood.api.model;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+@Relation(collectionRelation = "endereco")
 @Getter
 @Setter
-public class EnderecoModel {
+public class EnderecoModel extends RepresentationModel<EnderecoModel> {
 
 	@ApiModelProperty(value = "CEP da entrega", example = "71925-360")
 	private String cep;	

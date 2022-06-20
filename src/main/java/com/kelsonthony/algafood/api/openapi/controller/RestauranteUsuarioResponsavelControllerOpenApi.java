@@ -1,6 +1,6 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 import com.kelsonthony.algafood.api.model.UsuarioModel;
@@ -19,7 +19,7 @@ public interface RestauranteUsuarioResponsavelControllerOpenApi {
 		@ApiResponse(code = 400, message ="ID do restaurante inválido"),
 		@ApiResponse(code = 404, message ="Restaurante não encontrado", response = Problem.class)
 	})
-	List<UsuarioModel> listar(
+	CollectionModel<UsuarioModel> listar(
 			@ApiParam(value = "ID de um restaurante", example = "1", required = true)
 			Long restauranteId);
 	

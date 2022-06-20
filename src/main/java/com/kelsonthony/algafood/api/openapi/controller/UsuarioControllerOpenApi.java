@@ -1,6 +1,6 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 import com.kelsonthony.algafood.api.model.UsuarioModel;
@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 public interface UsuarioControllerOpenApi {
 
 	@ApiOperation(value = "Lista os usuários cadastrados")
-	List<UsuarioModel> listar();
+	CollectionModel<UsuarioModel> listar();
 
 	@ApiOperation(value = "Busca uma usuário por ID")
 	@ApiResponses({

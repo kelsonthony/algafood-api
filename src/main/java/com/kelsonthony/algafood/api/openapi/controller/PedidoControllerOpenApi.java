@@ -1,7 +1,7 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 import com.kelsonthony.algafood.api.model.PedidoModel;
@@ -25,7 +25,7 @@ public interface PedidoControllerOpenApi {
 		@ApiImplicitParam(value = "Nomes das propriedades para filtar na resposta, seperados por vírgula",
 				name = "campos", paramType = "query", type = "string")
 	})
-	Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
+	PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 			Pageable pageable);
 	
 	@ApiImplicitParams({

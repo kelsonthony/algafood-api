@@ -3,14 +3,18 @@ package com.kelsonthony.algafood.api.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 //@JsonFilter("pedidoFilter")
+@Relation(collectionRelation = "pedidos")
 @Getter
 @Setter
-public class PedidoResumoModel {
+public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
 
 	@ApiModelProperty(value = "Código do pedido", example = "8d774bcf-b238-42f3-aef1-5fb388754d63")
 	private String codigo;
