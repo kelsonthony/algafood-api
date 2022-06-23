@@ -4,11 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.kelsonthony.algafood.api.controller.UsuarioController;
-import com.kelsonthony.algafood.api.controller.UsuarioGrupoController;
+import com.kelsonthony.algafood.api.links.AlgaLinks;
 import com.kelsonthony.algafood.api.model.UsuarioModel;
 import com.kelsonthony.algafood.domain.model.Usuario;
 
@@ -18,6 +17,9 @@ public class UsuarioModelAssembler extends
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
 	
 	public UsuarioModelAssembler() {
 		super(UsuarioController.class, UsuarioModel.class);
@@ -29,22 +31,9 @@ public class UsuarioModelAssembler extends
 		
 		modelMapper.map(usuario, usuarioModel);
 		
-		usuarioModel.add(WebMvcLinkBuilder.linkTo(
-				(UsuarioController.class)).withRel("usuarios"));
+		usuarioModel.add(algaLinks.linkToUsuarios("usuarios"));
 		
-		usuarioModel.add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class)
-				.listar(usuario.getId())).withRel("grupos-usuario"));
-		
-		/*
-		 * usuarioModel.add(WebMvcLinkBuilder.linkTo(
-		 * WebMvcLinkBuilder.methodOn(UsuarioController.class)
-		 * .listar()).withRel("usuarios"));
-		 * 
-		 * usuarioModel.add(WebMvcLinkBuilder.linkTo(
-		 * WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class)
-		 * .listar(usuario.getId())).withRel("grupos-usuario"));
-		 */
+		usuarioModel.add(algaLinks.linkToGruposUsuario(usuario.getId(), "grupos-usuario"));
 		
 		
 		return usuarioModel;
@@ -53,10 +42,8 @@ public class UsuarioModelAssembler extends
 	@Override
 	public CollectionModel<UsuarioModel> toCollectionModel(Iterable<? extends 
 			Usuario> entities) {
-		// TODO Auto-generated method stub
 		return super.toCollectionModel(entities)
-				.add(WebMvcLinkBuilder.linkTo(UsuarioController.class)
-						.withSelfRel());
+				.add(algaLinks.linkToUsuarios());
 	}
 
 } 

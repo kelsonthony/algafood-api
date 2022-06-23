@@ -1,6 +1,7 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 import com.kelsonthony.algafood.api.model.PermissaoModel;
@@ -19,7 +20,7 @@ public interface GrupoPermissaoControllerOpenApi {
 		@ApiResponse(code = 400, message ="ID do grupo inválido", response = Problem.class),
 		@ApiResponse(code = 404, message ="Grupo não encontrado", response = Problem.class)
 	})
-	List<PermissaoModel> listar(
+	CollectionModel<PermissaoModel> listar(
 			@ApiParam(value = "ID de um grupo", example = "1", required = true)
 			Long grupoId);
 	
@@ -28,7 +29,7 @@ public interface GrupoPermissaoControllerOpenApi {
 		@ApiResponse(code = 204, message = "Permissão Desassociada"),
 		@ApiResponse(code = 404, message = "Permissão ou grupo não encontrado")
 	})
-	void desassociar(
+	ResponseEntity<Void> desassociar(
 			@ApiParam(value = "ID de um grupo", example = "1", required = true)
 			Long grupoId,
 			@ApiParam(value = "ID de um grupo", example = "1", required = true)
@@ -39,7 +40,7 @@ public interface GrupoPermissaoControllerOpenApi {
 		@ApiResponse(code = 204, message = "Permissão Associada"),
 		@ApiResponse(code = 404, message = "Permissão ou grupo não encontrado")
 	})
-	void associar(
+	ResponseEntity<Void> associar(
 			@ApiParam(value = "ID de um grupo", example = "1", required = true)
 			Long grupoId,
 			@ApiParam(value = "ID de um grupo", example = "1", required = true)

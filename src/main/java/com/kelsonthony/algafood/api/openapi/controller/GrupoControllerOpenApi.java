@@ -1,6 +1,6 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 import com.kelsonthony.algafood.api.model.GrupoModel;
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiResponses;
 public interface GrupoControllerOpenApi {
 	
 	@ApiOperation(value = "Lista os grupos cadastrados")
-	List<GrupoModel> listar();
+	CollectionModel<GrupoModel> listar();
 	
 	@ApiOperation(value = "Busca uma grupo por ID")
 	@ApiResponses({

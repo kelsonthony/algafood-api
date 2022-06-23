@@ -34,8 +34,9 @@ public class PedidoResumoModel extends RepresentationModel<PedidoResumoModel> {
 	@ApiModelProperty(value = "Data de criação do pedido", example = "2022-06-07T23:00:53Z")
 	private OffsetDateTime dataCriacao;
 	
-	@ApiModelProperty(value = "Data de confirmação do pedido", example = "2022-06-07T23:00:53Z")
-	private RestauranteResumoModel restaurante;
+	//@ApiModelProperty(value = "Data de confirmação do pedido", example = "2022-06-07T23:00:53Z")
+	//private RestauranteResumoModel restaurante;
+	private RestauranteApenasNomeModel restaurante;
 	
 	private UsuarioModel cliente;
 	//private String nomeCliente;

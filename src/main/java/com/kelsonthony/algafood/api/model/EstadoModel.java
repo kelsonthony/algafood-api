@@ -12,9 +12,9 @@ import lombok.Setter;
 @Setter
 public class EstadoModel extends RepresentationModel<EstadoModel>  {
 
-	@ApiModelProperty(example = "1", required = true)
+	@ApiModelProperty(example = "1", required = true, position = 1)
 	private Long id;
 	
-	@ApiModelProperty(example = "Distrito Federal", required = true)
+	@ApiModelProperty(example = "Distrito Federal", required = true, position = 10)
 	private String nome;
 }

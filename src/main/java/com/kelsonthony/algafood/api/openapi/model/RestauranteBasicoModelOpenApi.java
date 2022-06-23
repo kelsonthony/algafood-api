@@ -1,4 +1,4 @@
-package com.kelsonthony.algafood.api.controller;
+package com.kelsonthony.algafood.api.openapi.model;
 
 import java.math.BigDecimal;
 
@@ -12,7 +12,7 @@ import lombok.Setter;
 @ApiModel("RestauranteBasicoModel")
 @Getter
 @Setter
-public class RestauranteBasicoOpenApi {
+public class RestauranteBasicoModelOpenApi {
 
 	@ApiModelProperty(example = "1", position = 1)
 	private Long id;

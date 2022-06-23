@@ -43,7 +43,8 @@ public class PedidoModel extends RepresentationModel<PedidoModel> {
 	@ApiModelProperty(value = "Data de cancelamento do pedido", example = "2022-06-07T23:00:53Z")
 	private OffsetDateTime dataCancelamento;
 	
-	private RestauranteResumoModel restaurante;
+	//private RestauranteResumoModel restaurante;
+	private RestauranteApenasNomeModel restaurante;
 	private UsuarioModel cliente;
 	private FormaPagamentoModel formaPagamento;
 	private EnderecoModel endereco;

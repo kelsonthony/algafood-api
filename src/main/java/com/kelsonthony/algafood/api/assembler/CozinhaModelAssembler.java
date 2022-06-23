@@ -3,10 +3,10 @@ package com.kelsonthony.algafood.api.assembler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.kelsonthony.algafood.api.controller.CozinhaController;
+import com.kelsonthony.algafood.api.links.AlgaLinks;
 import com.kelsonthony.algafood.api.model.CozinhaModel;
 import com.kelsonthony.algafood.domain.model.Cozinha;
 
@@ -16,6 +16,9 @@ public class CozinhaModelAssembler
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
 	
 	public CozinhaModelAssembler() {
 		super(CozinhaController.class, CozinhaModel.class);
@@ -28,7 +31,7 @@ public class CozinhaModelAssembler
 		
 		modelMapper.map(cozinha, cozinhaModel);
 		
-		cozinhaModel.add(WebMvcLinkBuilder.linkTo(CozinhaController.class).withRel("cozinhas"));
+		cozinhaModel.add(algaLinks.linkToCozinhas("cozinhas"));
 		
 		return cozinhaModel;
 	}

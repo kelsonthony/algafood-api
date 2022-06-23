@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.kelsonthony.algafood.api.model.EstatisticasModel;
 import com.kelsonthony.algafood.domain.filter.VendaDiariaFilter;
 import com.kelsonthony.algafood.domain.model.dto.VendaDiaria;
 
@@ -33,4 +34,7 @@ public interface EstatisticasControllerOpenApi {
 	
 	ResponseEntity<byte[]> consultarVendasDiariasPDF(VendaDiariaFilter filtro,
 			String timeOffset);
+	
+	@ApiOperation(value = "Estatísticas", hidden = true)
+	EstatisticasModel estatisticas();
 }

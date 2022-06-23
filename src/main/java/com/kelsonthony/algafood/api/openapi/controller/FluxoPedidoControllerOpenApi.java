@@ -1,5 +1,7 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
+import org.springframework.http.ResponseEntity;
+
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 
 import io.swagger.annotations.Api;
@@ -16,7 +18,7 @@ public interface FluxoPedidoControllerOpenApi {
 		@ApiResponse(code = 200, message ="Pedido Confirmado"),
 		@ApiResponse(code = 404, message ="Pedido não encontrado", response = Problem.class)
 	})
-	void confirmar(
+	ResponseEntity<Void> confirmar(
 			@ApiParam(value = "UUID de um pedido", example = "f9981ca4-5a5e-4da3-af04-933861df3e55", required = true)
 			String codigoPedido);
 	
@@ -25,7 +27,7 @@ public interface FluxoPedidoControllerOpenApi {
 		@ApiResponse(code = 200, message ="Pedido Cancelado"),
 		@ApiResponse(code = 404, message ="Pedido não encontrado", response = Problem.class)
 	})
-	void cancelamento(
+	ResponseEntity<Void> cancelamento(
 			@ApiParam(value = "UUID de um pedido", example = "f9981ca4-5a5e-4da3-af04-933861df3e55", required = true)
 			String codigoPedido);
 	
@@ -34,7 +36,7 @@ public interface FluxoPedidoControllerOpenApi {
 		@ApiResponse(code = 200, message ="Pedido Entregue"),
 		@ApiResponse(code = 404, message ="Pedido não encontrado", response = Problem.class)
 	})
-	void entregar(
+	ResponseEntity<Void> entregar(
 			@ApiParam(value = "UUID de um pedido", example = "f9981ca4-5a5e-4da3-af04-933861df3e55", required = true)
 			String codigoPedido);
 }

@@ -1,6 +1,7 @@
 package com.kelsonthony.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.kelsonthony.algafood.api.exceptionhandler.Problem;
 import com.kelsonthony.algafood.api.model.FormaPagamentoModel;
@@ -19,7 +20,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 		@ApiResponse(code = 400, message ="ID do restaurante inválido"),
 		@ApiResponse(code = 404, message ="Restaurante não encontrado", response = Problem.class)
 	})
-	List<FormaPagamentoModel> listar(
+	CollectionModel<FormaPagamentoModel> listar(
 			@ApiParam(value = "ID de um restaurante", example = "1", required = true)
 			Long restauranteId);
 	
@@ -28,7 +29,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 		@ApiResponse(code = 400, message ="ID do restaurante inválido"),
 		@ApiResponse(code = 404, message ="Restaurante não encontrado", response = Problem.class)
 	})
-	void desassociar(
+	ResponseEntity<Void> desassociar(
 			@ApiParam(value = "ID de um restaurante", example = "1", required = true)
 			Long restauranteId,
 			@ApiParam(value = "ID da forma de pagamento", example = "1", required = true)
@@ -39,7 +40,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 		@ApiResponse(code = 400, message ="ID do restaurante inválido"),
 		@ApiResponse(code = 404, message ="Restaurante não encontrado", response = Problem.class)
 	})
-	void associar(
+	ResponseEntity<Void> associar(
 			@ApiParam(value = "ID de um restaurante", example = "1", required = true)
 			Long restauranteId,
 			@ApiParam(value = "ID da forma de pagamento", example = "1", required = true)

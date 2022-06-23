@@ -27,6 +27,7 @@ import com.kelsonthony.algafood.api.model.PedidoModel;
 import com.kelsonthony.algafood.api.model.PedidoResumoModel;
 import com.kelsonthony.algafood.api.model.input.PedidoInput;
 import com.kelsonthony.algafood.api.openapi.controller.PedidoControllerOpenApi;
+import com.kelsonthony.algafood.core.data.PageWrapper;
 import com.kelsonthony.algafood.core.data.PageableTranslator;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
 import com.kelsonthony.algafood.domain.filter.PedidoFilter;
@@ -62,10 +63,12 @@ public class PedidoController implements PedidoControllerOpenApi {
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 			@PageableDefault(size = 10) Pageable pageable) {
 
-		pageable = traduzirPageable(pageable);
+		Pageable pageableTraduzido = traduzirPageable(pageable);
 		
 		Page<Pedido> pedidosPage = pedidoRepository.findAll(
-				PedidoSpecs.usandoFiltro(filtro), pageable);
+				PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+		
+		pedidosPage = new PageWrapper<>(pedidosPage, pageable);
 		
 		PagedModel<PedidoResumoModel> pedidosPagedModel = pagedResourcesAssembler
 				.toModel(pedidosPage, pedidoResumoModelAssembler);
@@ -100,7 +103,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	private Pageable traduzirPageable(Pageable apiPageable) {
 		var mapeamento = Map.of(
 				"codigo", "codigo",
-				"restaurante.nome", "restaurante.nome",
+				"nomerestaurante", "restaurante.nome",
 				"nomeCliente", "cliente.nome",
 				"valorTotal", "valorTotal"
 				);

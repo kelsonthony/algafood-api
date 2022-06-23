@@ -2,5 +2,5 @@
 
 - Documentation URL 
 
-URL: http://localhost:8080/swagger-ui/index.html
+URL: http://localhost:8080/swagger-ui.html
 
