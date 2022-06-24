@@ -14,7 +14,7 @@ import com.kelsonthony.algafood.api.v1.openapi.controller.FluxoPedidoControllerO
 import com.kelsonthony.algafood.domain.service.FluxoPedidoService;
 
 @RestController
-@RequestMapping(value = "/pedidos/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/pedidos/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FluxoPedidoController implements FluxoPedidoControllerOpenApi {
 
 	@Autowired

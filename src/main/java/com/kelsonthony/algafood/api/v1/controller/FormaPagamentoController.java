@@ -36,7 +36,7 @@ import com.kelsonthony.algafood.domain.repository.FormaPagamentoRepository;
 import com.kelsonthony.algafood.domain.service.CadastroFormaPagamentoService;
 
 @RestController
-@RequestMapping(path = "/formas-pagamentos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/formas-pagamentos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FormaPagamentoController implements FormaPagamentoControllerOpenApi {
 
 	@Autowired

@@ -29,7 +29,7 @@ import com.kelsonthony.algafood.domain.repository.UsuarioRepository;
 import com.kelsonthony.algafood.domain.service.CadastroUsuarioService;
 
 @RestController
-@RequestMapping(value = "/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioController implements UsuarioControllerOpenApi {
 
 	@Autowired
