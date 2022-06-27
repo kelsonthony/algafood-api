@@ -74,7 +74,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	}
 
 	@GetMapping("/{produtoId}")
-	public ProdutoModel buscar(Long restauranteId, @PathVariable Long produtoId) {
+	public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		Produto produto = cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId);
 
 		return produtoModelAssembler.toModel(produto);
