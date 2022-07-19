@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.kelsonthony.algafood.api.v1.controller.FormaPagamentoController;
 import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
 import com.kelsonthony.algafood.api.v1.model.FormaPagamentoModel;
+import com.kelsonthony.algafood.core.security.AlgaSecurity;
 import com.kelsonthony.algafood.domain.model.FormaPagamento;
 
 @Component
@@ -20,6 +21,9 @@ public class FormaPagamentoModelAssembler
 	
 	@Autowired
 	private AlgaLinks algaLinks;
+	
+	@Autowired
+	private AlgaSecurity algaSecurity;   
 	
 	public FormaPagamentoModelAssembler() {
 		super(FormaPagamentoController.class, FormaPagamentoModel.class);
@@ -33,7 +37,9 @@ public class FormaPagamentoModelAssembler
 		
 		modelMapper.map(formaPagamento, formaPagamentoModel);
 		
-		formaPagamentoModel.add(algaLinks.linkToFormasPagamento("formasPagamento"));
+		if (algaSecurity.podeConsultarFormasPagamento()) {
+			formaPagamentoModel.add(algaLinks.linkToFormasPagamento("formasPagamento"));
+		}
 		
 		return formaPagamentoModel;
 	}
@@ -41,7 +47,12 @@ public class FormaPagamentoModelAssembler
 	@Override
 	public CollectionModel<FormaPagamentoModel> toCollectionModel(
 			Iterable<? extends FormaPagamento> entities) {
-		return super.toCollectionModel(entities)
-				.add(algaLinks.linkToFormasPagamento());
+		CollectionModel<FormaPagamentoModel> collectionModel = super.toCollectionModel(entities);
+				
+		if (algaSecurity.podeConsultarFormasPagamento()) {
+			collectionModel.add(algaLinks.linkToFormasPagamento());
+		}
+		
+		return collectionModel;
 	}
 }

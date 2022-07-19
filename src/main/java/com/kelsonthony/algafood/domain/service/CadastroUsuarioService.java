@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kelsonthony.algafood.domain.exception.EntidadeEmUsoException;
@@ -26,6 +27,9 @@ public class CadastroUsuarioService {
 	
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 
 	@Transactional
@@ -34,6 +38,10 @@ public class CadastroUsuarioService {
 		usuarioRepository.detach(usuario);
 		
 		Optional<Usuario> usuarioExiste = usuarioRepository.findByEmail(usuario.getEmail());
+		
+		if (usuario.isNovo()) {
+			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		}
 		
 		if(usuarioExiste.isPresent() && !usuarioExiste.get().equals(usuario))
 			throw new NegocioException(
@@ -46,11 +54,11 @@ public class CadastroUsuarioService {
 	public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
 		Usuario usuario = buscarOuFalhar(usuarioId);
 
-		if (usuario.senhaNaoCoincideCom(senhaAtual)) {
+		if (!passwordEncoder.matches(senhaAtual, usuario.getSenha())) {
 			throw new NegocioException("Senha atual informado não coincide com a senha do usuário.");
 		}
 
-		usuario.setSenha(novaSenha);
+		usuario.setSenha(passwordEncoder.encode(novaSenha));
 	}
 
 	@Transactional

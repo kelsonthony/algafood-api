@@ -25,13 +25,12 @@ import com.kelsonthony.algafood.api.v1.assembler.CozinhaModelAssembler;
 import com.kelsonthony.algafood.api.v1.model.CozinhaModel;
 import com.kelsonthony.algafood.api.v1.model.input.CozinhaInput;
 import com.kelsonthony.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
+import com.kelsonthony.algafood.core.security.CheckSecurity;
 import com.kelsonthony.algafood.domain.model.Cozinha;
 import com.kelsonthony.algafood.domain.repository.CozinhaRepository;
 import com.kelsonthony.algafood.domain.service.CadastroCozinhaService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+//@Slf4j
 @RestController
 @RequestMapping(path = "/v1/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CozinhaController implements CozinhaControllerOpenApi {
@@ -51,10 +50,13 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	@Autowired
 	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
+	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping
 	public PagedModel<CozinhaModel> listar(@PageableDefault(size= 10) Pageable pageable) {
 		
-		log.info("Consultando cozinhas com páginas de {} registros...", pageable.getPageSize());
+		//log.info("Consultando cozinhas com páginas de {} registros...", pageable.getPageSize());
+		
+		//System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 		
 		/*
 		 * if (true) { throw new RuntimeException("Teste de exception"); }
@@ -68,6 +70,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		return cozinhasPagedModel;
 	}
 
+	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping("/{cozinhaId}")
 	public CozinhaModel buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cadastroCozinhaService.buscarOuFalhar(cozinhaId);
@@ -75,6 +78,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
 
+	@CheckSecurity.Cozinhas.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaModel adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
@@ -86,6 +90,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		return cozinhaModelAssembler.toModel(cozinha);
 	}
 
+	@CheckSecurity.Cozinhas.PodeEditar
 	@PutMapping("/{cozinhaId}")
 	public CozinhaModel atualizar(@PathVariable Long cozinhaId, @RequestBody @Valid CozinhaInput cozinhaInput) {
 		
@@ -99,6 +104,8 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 
 	}
 
+	//@PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
+	@CheckSecurity.Cozinhas.PodeEditar
 	@DeleteMapping("/{cozinhaId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId) {

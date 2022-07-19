@@ -24,6 +24,7 @@ import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
 import com.kelsonthony.algafood.api.v1.model.ProdutoModel;
 import com.kelsonthony.algafood.api.v1.model.input.ProdutoInput;
 import com.kelsonthony.algafood.api.v1.openapi.controller.RestauranteProdutoControllerOpenApi;
+import com.kelsonthony.algafood.core.security.CheckSecurity;
 import com.kelsonthony.algafood.domain.model.Produto;
 import com.kelsonthony.algafood.domain.model.Restaurante;
 import com.kelsonthony.algafood.domain.repository.ProdutoRepository;
@@ -52,6 +53,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	@Autowired
 	private AlgaLinks algaLinks;
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId,
 			@RequestParam(required = false) Boolean incluirInativos) {
@@ -73,6 +75,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 				.add(algaLinks.linkToProdutos(restauranteId));
 	}
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/{produtoId}")
 	public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		Produto produto = cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId);
@@ -80,6 +83,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		return produtoModelAssembler.toModel(produto);
 	}
 
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ProdutoModel adicionar(
@@ -98,6 +102,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		return produtoModelAssembler.toModel(produto);
 	}
 
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@PutMapping("/{produtoId}")
 	public ProdutoModel atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId,
 			@RequestBody @Valid ProdutoInput produtoInput) {

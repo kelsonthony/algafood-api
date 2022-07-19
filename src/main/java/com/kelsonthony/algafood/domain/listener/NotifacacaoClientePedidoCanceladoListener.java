@@ -23,7 +23,7 @@ public class NotifacacaoClientePedidoCanceladoListener {
 		
 		var mensagem = Mensagem.builder()
 				.assunto(pedido.getRestaurante().getNome() + " - Pedido cancelado")
-				.corpo("pedido-cancelado.html")
+				.corpo("emails/pedido-cancelado.html")
 				//.corpo("pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado")
 				.variavel("pedido", pedido)
 				.destinatario(pedido.getCliente().getEmail())

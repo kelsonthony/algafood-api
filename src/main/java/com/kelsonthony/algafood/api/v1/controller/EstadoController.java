@@ -23,6 +23,7 @@ import com.kelsonthony.algafood.api.v1.assembler.EstadoModelAssembler;
 import com.kelsonthony.algafood.api.v1.model.EstadoModel;
 import com.kelsonthony.algafood.api.v1.model.input.EstadoInput;
 import com.kelsonthony.algafood.api.v1.openapi.controller.EstadoControllerOpenApi;
+import com.kelsonthony.algafood.core.security.CheckSecurity;
 import com.kelsonthony.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
 import com.kelsonthony.algafood.domain.model.Estado;
@@ -45,6 +46,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	@Autowired
 	private EstadoInputDisassembler estadoInputDisassembler;
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping
 	public CollectionModel<EstadoModel> listar() {
 		
@@ -53,6 +55,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toCollectionModel(todosEstados);
 	}
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping("/{estadoId}")
 	public EstadoModel buscar(@PathVariable Long estadoId) {
 		Estado estado = cadastroEstadoService.buscarOuFalhar(estadoId);
@@ -60,6 +63,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		return estadoModelAssembler.toModel(estado);
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoModel adicionar(@RequestBody @Valid EstadoInput estadoInput) {
@@ -74,6 +78,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping("/{estadoId}")
 	public EstadoModel atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
 
@@ -91,6 +96,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@DeleteMapping("/{estadoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long estadoId) {

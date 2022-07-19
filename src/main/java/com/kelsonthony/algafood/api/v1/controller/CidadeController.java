@@ -24,6 +24,7 @@ import com.kelsonthony.algafood.api.v1.assembler.CidadeModelAssembler;
 import com.kelsonthony.algafood.api.v1.model.CidadeModel;
 import com.kelsonthony.algafood.api.v1.model.input.CidadeInput;
 import com.kelsonthony.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
+import com.kelsonthony.algafood.core.security.CheckSecurity;
 import com.kelsonthony.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
 import com.kelsonthony.algafood.domain.model.Cidade;
@@ -48,6 +49,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	private CidadeInputDisassembler cidadeInputDisassembler;
 
 	//@Deprecated
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping
 	public CollectionModel<CidadeModel> listar() {
 		List<Cidade> todasCidades = cidadeRepository.findAll();
@@ -56,6 +58,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		
 	}
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping("/{cidadeId}")
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 		
@@ -66,6 +69,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return cidadeModel;
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -85,6 +89,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping("/{cidadeId}")
 	public CidadeModel atualizar(@PathVariable Long cidadeId, 
 			@RequestBody @Valid CidadeInput cidadeInput) {
@@ -102,6 +107,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cidadeId) {

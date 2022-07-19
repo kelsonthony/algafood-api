@@ -29,6 +29,8 @@ import com.kelsonthony.algafood.api.v1.model.input.PedidoInput;
 import com.kelsonthony.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.kelsonthony.algafood.core.data.PageWrapper;
 import com.kelsonthony.algafood.core.data.PageableTranslator;
+import com.kelsonthony.algafood.core.security.AlgaSecurity;
+import com.kelsonthony.algafood.core.security.CheckSecurity;
 import com.kelsonthony.algafood.domain.exception.NegocioException;
 import com.kelsonthony.algafood.domain.filter.PedidoFilter;
 import com.kelsonthony.algafood.domain.model.Pedido;
@@ -58,7 +60,11 @@ public class PedidoController implements PedidoControllerOpenApi {
 	
 	@Autowired
 	private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+	
+	@Autowired
+	private AlgaSecurity algaSecurity;
 
+	@CheckSecurity.Pedidos.PodePesquisar
 	@GetMapping
 	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, 
 			@PageableDefault(size = 10) Pageable pageable) {
@@ -76,6 +82,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pedidosPagedModel;
 	}
 
+	@CheckSecurity.Pedidos.PodeBuscar
 	@GetMapping("/{codigoPedido}")
 	public PedidoModel buscar(@PathVariable String codigoPedido) {
 		Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
@@ -83,14 +90,17 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pedidoModelAssembler.toModel(pedido);
 	}
 
+	@CheckSecurity.Pedidos.PodeCriar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoModel adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
 		try {
 			Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
+			
+			//Todo pegar o usuário autenticado
 
 			novoPedido.setCliente(new Usuario());
-			novoPedido.getCliente().setId(1L);
+			novoPedido.getCliente().setId(algaSecurity.getUsuarioId());
 
 			novoPedido = emissaoPedidoService.emitir(novoPedido);
 

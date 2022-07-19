@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.kelsonthony.algafood.api.v1.controller.GrupoController;
 import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
 import com.kelsonthony.algafood.api.v1.model.GrupoModel;
+import com.kelsonthony.algafood.core.security.AlgaSecurity;
 import com.kelsonthony.algafood.domain.model.Grupo;
 
 @Component
@@ -21,6 +22,9 @@ public class GrupoModelAssembler
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity; 
+	
 	public GrupoModelAssembler() {
 		super(GrupoController.class, GrupoModel.class);
 	}
@@ -31,16 +35,24 @@ public class GrupoModelAssembler
 		
 		modelMapper.map(grupo, grupoModel);
 		
-		grupoModel.add(algaLinks.linkToGrupos("grupos"));
-		
-		grupoModel.add(algaLinks.linkToGruposPermissoes(grupo.getId(), "permissoes"));
+		if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+			grupoModel.add(algaLinks.linkToGrupos("grupos"));
+			
+			grupoModel.add(algaLinks.linkToGruposPermissoes(grupo.getId(), "permissoes"));
+		}
 		
 		return grupoModel;
 	}
 	
 	@Override
 	public CollectionModel<GrupoModel> toCollectionModel(Iterable<? extends Grupo> entities) {
-		return super.toCollectionModel(entities)
-				.add(algaLinks.linkToGrupos());
+		CollectionModel<GrupoModel> collectionModel = super.toCollectionModel(entities);
+		
+		if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+			collectionModel.add(algaLinks.linkToGrupos());
+		}
+		
+		return collectionModel;
+				
 	}
 }

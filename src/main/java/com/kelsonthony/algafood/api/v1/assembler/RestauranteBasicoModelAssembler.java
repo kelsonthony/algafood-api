@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.kelsonthony.algafood.api.v1.controller.RestauranteController;
 import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
 import com.kelsonthony.algafood.api.v1.model.RestauranteBasicoModel;
+import com.kelsonthony.algafood.api.v1.model.RestauranteModel;
+import com.kelsonthony.algafood.core.security.AlgaSecurity;
 import com.kelsonthony.algafood.domain.model.Restaurante;
 
 @Component
@@ -21,6 +23,9 @@ public class RestauranteBasicoModelAssembler
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity;
+	
 	public RestauranteBasicoModelAssembler() {
 		super(RestauranteController.class, RestauranteBasicoModel.class);
 	}
@@ -32,10 +37,14 @@ public class RestauranteBasicoModelAssembler
 		
 		modelMapper.map(restaurante, restauranteBasicoModel);
 		
-		restauranteBasicoModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+		if (algaSecurity.podeConsultarRestaurantes()) {
+			restauranteBasicoModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+		}
 		
-		restauranteBasicoModel.getCozinha().add(
-				algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
+		if (algaSecurity.podeConsultarCozinhas()) {
+			restauranteBasicoModel.getCozinha().add(
+					algaLinks.linkToCozinha(restaurante.getCozinha().getId()));
+		}
 		
 		return restauranteBasicoModel;
 	}
@@ -44,7 +53,13 @@ public class RestauranteBasicoModelAssembler
     public CollectionModel<RestauranteBasicoModel> toCollectionModel(
     		Iterable<? extends Restaurante> entities) {
         
-		return super.toCollectionModel(entities)
-                .add(algaLinks.linkToRestaurantes());
+		CollectionModel<RestauranteBasicoModel> collectionModel = super.toCollectionModel(entities);
+		
+		if (algaSecurity.podeConsultarRestaurantes()) {
+			collectionModel.add(algaLinks.linkToRestaurantes());
+		}
+        
+		return collectionModel;
+				
     } 
 }

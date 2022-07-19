@@ -23,7 +23,7 @@ public class NotifacacaoClientePedidoEntregueListener {
 		
 		var mensagem = Mensagem.builder()
 				.assunto(pedido.getRestaurante().getNome() + " - Pedido entregue")
-				.corpo("pedido-entregue.html")
+				.corpo("emails/pedido-entregue.html")
 				//.corpo("pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado")
 				.variavel("pedido", pedido)
 				.destinatario(pedido.getCliente().getEmail())

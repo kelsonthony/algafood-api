@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.kelsonthony.algafood.api.v1.controller.PedidoController;
 import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
 import com.kelsonthony.algafood.api.v1.model.PedidoModel;
+import com.kelsonthony.algafood.core.security.AlgaSecurity;
 import com.kelsonthony.algafood.domain.model.Pedido;
 
 @Component
@@ -20,6 +21,9 @@ public class PedidoModelAssembler
 	@Autowired
 	private AlgaLinks algaLinks;
 	
+	@Autowired
+	private AlgaSecurity algaSecurity;
+		
 	public PedidoModelAssembler() {
 		super(PedidoController.class, PedidoModel.class);
 	}
@@ -32,36 +36,51 @@ public class PedidoModelAssembler
 		modelMapper.map(pedido, pedidoModel);
 		
 		
-		pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
-		
-		if (pedido.podeSerConfirmado()) {
-			pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
+		if (algaSecurity.podePesquisarPedidos()) {
+			pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
 		}
+		
+		if (algaSecurity.podeGerenciarPedidos(pedido.getCodigo())) {
+			if (pedido.podeSerConfirmado()) {
+				pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
+			}
 
-		if (pedido.podeSerCancelado()) {
-			pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+			if (pedido.podeSerCancelado()) {
+				pedidoModel.add(algaLinks.linkToCancelamentoPedido(pedido.getCodigo(), "cancelar"));
+			}
+			
+			if (pedido.podeSerEntregue()) {
+				pedidoModel.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
+			}
 		}
 		
-		if (pedido.podeSerEntregue()) {
-			pedidoModel.add(algaLinks.linkToEntregaPedido(pedido.getCodigo(), "entregar"));
+		
+		if (algaSecurity.podeConsultarRestaurantes()) {
+			pedidoModel.getRestaurante().add(algaLinks.linkToRestaurante(
+					pedido.getRestaurante().getId()));
 		}
 		
-		pedidoModel.getRestaurante().add(algaLinks.linkToRestaurante(
-				pedido.getRestaurante().getId()));
+		if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+			pedidoModel.getCliente().add(algaLinks.linkToUsuario(
+					pedido.getCliente().getId()));
+		}
 		
-		pedidoModel.getCliente().add(algaLinks.linkToUsuario(
-				pedido.getCliente().getId()));
+		if (algaSecurity.podeConsultarFormasPagamento()) {
+			pedidoModel.getFormaPagamento().add(algaLinks.linkToFormaPagamento(
+					pedido.getFormaPagamento().getId()));
+		}
 		
-		pedidoModel.getFormaPagamento().add(algaLinks.linkToFormaPagamento(
-				pedido.getFormaPagamento().getId()));
+		if (algaSecurity.podeConsultarCidades()) {
+			pedidoModel.getEndereco().getCidade().add(algaLinks.linkToCidade(
+					pedido.getEndereco().getCidade().getId()));
+		}
 		
-		pedidoModel.getEndereco().getCidade().add(algaLinks.linkToCidade(
-				pedido.getEndereco().getCidade().getId()));
-		
-		pedidoModel.getItens().forEach(item -> {
-			item.add(algaLinks.linkToProduto(
-					pedidoModel.getRestaurante().getId(), item.getProdutoId(), "produto"));
-		});
+		if (algaSecurity.podeConsultarRestaurantes()) {
+			pedidoModel.getItens().forEach(item -> {
+				item.add(algaLinks.linkToProduto(
+						pedidoModel.getRestaurante().getId(), item.getProdutoId(), "produto"));
+			});
+		}
 		
 		return pedidoModel;
 	}
