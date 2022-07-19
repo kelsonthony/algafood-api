@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TomcatCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void customize(TomcatServletWebServerFactory factory) {
         factory.addConnectorCustomizers(connector -> connector.setAttribute("relaxedQueryChars", "[]"));
     }

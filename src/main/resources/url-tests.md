@@ -16,7 +16,7 @@ Fluxo Authorization Code com PKCE com o método plain
 
 Authorization Code
 
-http://localhost:8080/oauth/authorize?response_type=code&client_id=foodanalytics&state=abc&redirect_uri=http://127.0.0.1:5500/foodanalytucs-client-authorizationcode/index.html
+http://localhost:8080/oauth/authorize?response_type=code&client_id=foodanalytics&state=abc&redirect_uri=http://127.0.0.1:5500/foodanalytics-client-authorizationcode/index.html
 
 Login oauth/token
 http://localhost:8080/login
