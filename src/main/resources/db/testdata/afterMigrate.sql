@@ -1,5 +1,11 @@
 set foreign_key_checks = 0;
 
+lock tables cidade write, cozinha write, estado write, forma_pagamento write,
+	grupo write, grupo_permissao write, permissao write,
+	produto write, restaurante write, restaurante_forma_pagamento write,
+	restaurante_usuario_responsavel write, usuario write, usuario_grupo write,
+	pedido write, item_pedido write, foto_produto write, oauth_client_details write; 
+
 delete from cidade;
 delete from cozinha;
 delete from estado;
@@ -194,19 +200,8 @@ insert into oauth_client_details (
   access_token_validity, refresh_token_validity, autoapprove
 )
 values (
-  'foodanalytics', null, '$2a$12$ArYmLsbyV1g7qIlTPur6MuRim2CxBiSF0o5HfmYWuQrJ4Bs4pZmK6',
-  'READ,WRITE', 'authorization_code', 'http://127.0.0.1:5500/foodanalytics-client-authorizationcode/index.html', null,
-  null, null, null
-);
-
-insert into oauth_client_details (
-  client_id, resource_ids, client_secret, 
-  scope, authorized_grant_types, web_server_redirect_uri, authorities,
-  access_token_validity, refresh_token_validity, autoapprove
-)
-values (
-  'foodanalyticspkce', null, '$2a$12$ArYmLsbyV1g7qIlTPur6MuRim2CxBiSF0o5HfmYWuQrJ4Bs4pZmK6',
-  'READ,WRITE', 'authorization_code', 'http://127.0.0.1:5500/foodanalytics-client-pkce/index.html', null,
+  'foodanalytics', null, '$2y$12$fahbH37S2pyk1RPuIHKP.earzFmgAJJGo26rE.59vf4wwiiTKHnzO',
+  'READ,WRITE', 'authorization_code', 'http://127.0.0.1:5500', null,
   null, null, null
 );
 
@@ -220,3 +215,5 @@ values (
   'READ,WRITE', 'client_credentials', null, 'CONSULTAR_PEDIDOS,GERAR_RELATORIOS',
   null, null, null
 );
+
+unlock tables;

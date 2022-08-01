@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -46,22 +47,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Autowired
 	private JwtKeyStoreProperties jwtKeyStoreProperties;
-	
+
 	@Autowired
 	private DataSource dataSource;
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.jdbc(dataSource);
-				
+
 	}
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		// security.checkTokenAccess("isAuthenticated()");
 		security.checkTokenAccess("permitAll()")
-				.tokenKeyAccess("permitAll()");
-				//.allowFormAuthenticationForClients();
+				.tokenKeyAccess("permitAll()")
+				.allowFormAuthenticationForClients();
 	}
 
 	@Override
@@ -71,14 +72,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		enhancerChain.setTokenEnhancers(
 				Arrays.asList(new JwtCustomClaimsTokenEnhancer(), jwtAccessTokenConverter()));
 
-		endpoints.authenticationManager(authenticationManager)
-				.userDetailsService(userDetailsService)
-				.reuseRefreshTokens(false)
-				// .tokenStore(redisTokenStore())
-				.accessTokenConverter(jwtAccessTokenConverter())
-				.tokenEnhancer(enhancerChain)
-				.approvalStore(approvalStore(endpoints.getTokenStore()))
-				.tokenGranter(tokenGranter(endpoints));
+		endpoints
+			.authenticationManager(authenticationManager)
+			.userDetailsService(userDetailsService)
+			.authorizationCodeServices(new JdbcAuthorizationCodeServices(this.dataSource))
+			.reuseRefreshTokens(false)
+				//.tokenStore(redisTokenStore())
+			.accessTokenConverter(jwtAccessTokenConverter())
+			.tokenEnhancer(enhancerChain)
+			.approvalStore(approvalStore(endpoints.getTokenStore()))
+			.tokenGranter(tokenGranter(endpoints));
 	}
 
 	private ApprovalStore approvalStore(TokenStore tokenStore) {
@@ -88,15 +91,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 		return approvalStore;
 	}
-	
+
 	@Bean
 	public JWKSet jwkSet() {
-		
+
 		RSAKey.Builder builder = new RSAKey.Builder((RSAPublicKey) keyPair().getPublic())
-				.keyUse(KeyUse.SIGNATURE)
-				.algorithm(JWSAlgorithm.RS256)
-				.keyID("algafood-key-id");
-		
+				.keyUse(KeyUse.SIGNATURE).algorithm(JWSAlgorithm.RS256).keyID("algafood-key-id");
+
 		return new JWKSet(builder.build());
 	}
 
@@ -104,20 +105,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		var jwtAccessTokenConverter = new JwtAccessTokenConverter();
 		// jwtAccessTokenConverter.setSigningKey("dADSG42542VFSDgsd4645rgdsfsdfgwr42645gsdgsdf46y");
-		
+
 		jwtAccessTokenConverter.setKeyPair(keyPair());
 
 		return jwtAccessTokenConverter;
 	}
-	
+
 	private KeyPair keyPair() {
 		var keyStorePass = jwtKeyStoreProperties.getPassword();
 		var keyPairAlias = jwtKeyStoreProperties.getKeypairAlias();
 
-		var keyStoreKeyFactory = new KeyStoreKeyFactory(
-				jwtKeyStoreProperties.getJksLocation(), keyStorePass.toCharArray());
+		var keyStoreKeyFactory = new KeyStoreKeyFactory(jwtKeyStoreProperties.getJksLocation(),
+				keyStorePass.toCharArray());
 		var keyPair = keyStoreKeyFactory.getKeyPair(keyPairAlias);
-		
+
 		return keyPair;
 	}
 

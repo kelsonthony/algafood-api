@@ -17,7 +17,7 @@ public class CorsConfig {
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 		CorsConfiguration config = new CorsConfiguration();
-		
+
 		/*
 		 * config.setAllowCredentials(true); //config.setAllowCredentials(true);
 		 * config.setAllowedOriginPatterns(null);
@@ -26,16 +26,16 @@ public class CorsConfig {
 		 * config.setAllowedMethods(Collections.singletonList("*"));
 		 * config.setAllowedHeaders(Collections.singletonList("*"));
 		 */
-		 
-		
-		  config.setAllowCredentials(true); config.addAllowedOriginPattern("*");
-		  //config.setAllowedOrigins(Arrays.asList("http://localhost:8080",
-		  //"http://127.0.0.1:5500", 
-		  //"http://127.0.0.1:5500/foodanalytucs-client-authorizationcode/index.html"));
-		  config.setAllowedOrigins(Arrays.asList("/*"));
-		  config.setAllowedMethods(Collections.singletonList("*"));
-		  config.setAllowedHeaders(Collections.singletonList("*"));
-		 
+
+		// config.setAllowedOrigins(Arrays.asList("http://localhost:8080",
+		// "http://127.0.0.1:5500",
+		// "http://127.0.0.1:5500/foodanalytucs-client-authorizationcode/index.html"));
+		config.setAllowCredentials(true);
+		config.addAllowedOriginPattern("*");
+		config.setAllowedOrigins(Arrays.asList("/*"));
+		config.setAllowedMethods(Collections.singletonList("*"));
+		config.setAllowedHeaders(Collections.singletonList("*"));
+
 		/*
 		 * config.setAllowCredentials(true);
 		 * config.setAllowedOrigins(Collections.singletonList("*"));
