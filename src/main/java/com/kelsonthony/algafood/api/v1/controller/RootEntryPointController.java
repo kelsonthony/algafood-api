@@ -12,6 +12,7 @@ import com.kelsonthony.algafood.core.security.AlgaSecurity;
 
 import springfox.documentation.annotations.ApiIgnore;
 
+@ApiIgnore
 @RestController
 @RequestMapping(path = "/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootEntryPointController {
@@ -22,7 +23,7 @@ public class RootEntryPointController {
 	@Autowired
 	private AlgaSecurity algaSecurity;
 	
-	@ApiIgnore
+	
 	@GetMapping
 	public RootEntryPointModel root() {
 		var rootEntryPointModel = new RootEntryPointModel();

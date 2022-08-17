@@ -70,3 +70,5 @@ http://localhost/oauth/authorize?response_type=code&client_id=foodanalytics&code
 
 http://localhost:8080/oauth/authorize?response_type=code&client_id=foodanalytics&code_challenge=0lfT51I5tSGt0Wxu7EL5WmQ8V-n3xWJjmZmaRDcO-nc&code_challenge_method=s256&redirect_uri=http://127.0.0.1:5500
 
+https://api.kelsonthony.com.br/oauth/authorize?response_type=code&client_id=foodanalytics&code_challenge=0lfT51I5tSGt0Wxu7EL5WmQ8V-n3xWJjmZmaRDcO-nc&code_challenge_method=s256&redirect_uri=http://127.0.0.1:5500
+
