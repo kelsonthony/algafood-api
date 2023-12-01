@@ -38,7 +38,7 @@ public class AlgaLinks {
 	public static final TemplateVariables PROJECAO_VARIABLES = new TemplateVariables(
 			new TemplateVariable("projecao", VariableType.REQUEST_PARAM));
 
-	@SuppressWarnings("deprecation")
+	
 	public Link linkToPedidos(String rel) {
 
 		TemplateVariables filterVariables = new TemplateVariables(
@@ -49,7 +49,7 @@ public class AlgaLinks {
 
 		String pedidosUrl = WebMvcLinkBuilder.linkTo(PedidoController.class).toUri().toString();
 
-		return new Link(UriTemplate.of(pedidosUrl, PAGINACAO_VARIABLES.concat(filterVariables)),
+		return Link.of(UriTemplate.of(pedidosUrl, PAGINACAO_VARIABLES.concat(filterVariables)),
 				rel);
 	}
 	
@@ -57,7 +57,6 @@ public class AlgaLinks {
 		return WebMvcLinkBuilder.linkTo(EstatisticasController.class).withRel(rel);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public Link linkToEstatisticasVendaDiaria(String rel) {
 
 		TemplateVariables filterVariables = new TemplateVariables(
@@ -68,7 +67,7 @@ public class AlgaLinks {
 
 		String estatisticaUrl = WebMvcLinkBuilder.linkTo(EstatisticasController.class).toUri().toString();
 
-		return new Link(UriTemplate.of(estatisticaUrl, PAGINACAO_VARIABLES.concat(filterVariables)),
+		return Link.of(UriTemplate.of(estatisticaUrl, PAGINACAO_VARIABLES.concat(filterVariables)),
 				rel);
 	}
 
@@ -124,12 +123,12 @@ public class AlgaLinks {
 		return linkToRestaurante(restauranteId, IanaLinkRelations.SELF.value());
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public Link linkToRestaurantes(String rel) {
 		String restauranteUrl = WebMvcLinkBuilder.linkTo(RestauranteController.class).toUri()
 				.toString();
 
-		return new Link(UriTemplate.of(restauranteUrl, PROJECAO_VARIABLES), rel);
+		return Link.of(UriTemplate.of(restauranteUrl, PROJECAO_VARIABLES), rel);
 	}
 
 	public Link linkToRestaurantes() {

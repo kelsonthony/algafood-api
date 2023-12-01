@@ -72,3 +72,17 @@ http://localhost:8080/oauth/authorize?response_type=code&client_id=foodanalytics
 
 https://api.kelsonthony.com.br/oauth/authorize?response_type=code&client_id=foodanalytics&code_challenge=0lfT51I5tSGt0Wxu7EL5WmQ8V-n3xWJjmZmaRDcO-nc&code_challenge_method=s256&redirect_uri=http://127.0.0.1:5500
 
+
+# Spring Security 3 with Oauth2 
+
+01. Testando o fluxo Authorization Code + PKCE + S256 
+
+http://localhost:8087/oauth2/authorize?response_type=code&client_id=algafood-web&state=abcd&redirect_uri=http://127.0.0.1:8087/authorized&scope=READ%20WRITE&code_challenge=iNQmb9TmM40TuEX88olXnSCciXgjuSF9o-Fhk28DFYk&code_challenge_method=S256
+
+02. Testando o fluxo com o fluxo Refresh Token
+
+http://localhost:8087/oauth2/authorize?response_type=code&client_id=algafood-web&state=abcd&redirect_uri=http://127.0.0.1:8087/authorized&scope=READ%20WRITE&code_challenge=iNQmb9TmM40TuEX88olXnSCciXgjuSF9o-Fhk28DFYk&code_challenge_method=S256
+
+
+
+

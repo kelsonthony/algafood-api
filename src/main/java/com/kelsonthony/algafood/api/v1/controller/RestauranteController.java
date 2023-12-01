@@ -56,7 +56,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
 	@Autowired
 	private RestauranteBasicoModelAssembler restauranteBasicoModelAssembler;
-	
+
 	@Autowired
 	private RestauranteApenasNomeModelAssembler restauranteApenasNomeModelAssembler;
 
@@ -90,8 +90,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		try {
 			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 
-			return restauranteModelAssembler
-					.toModel(cadastroRestauranteService.salvar(restaurante));
+			return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -108,8 +107,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
 			restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 
-			return restauranteModelAssembler
-					.toModel(cadastroRestauranteService.salvar(restauranteAtual));
+			return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restauranteAtual));
 		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -121,7 +119,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.ativar(restauranteId);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 
@@ -130,7 +128,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.inativar(restauranteId);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 
@@ -147,7 +145,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> abrir(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.abrir(restauranteId);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 
@@ -156,7 +154,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> fechar(@PathVariable Long restauranteId) {
 		cadastroRestauranteService.fechar(restauranteId);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 
