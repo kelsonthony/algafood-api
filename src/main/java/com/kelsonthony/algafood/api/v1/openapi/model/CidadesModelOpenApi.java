@@ -1,22 +1,19 @@
 package com.kelsonthony.algafood.api.v1.openapi.model;
 
-import java.util.List;
-
+import com.kelsonthony.algafood.api.v1.model.CidadeModel;
+import lombok.Data;
 import org.springframework.hateoas.Links;
 
-import com.kelsonthony.algafood.api.v1.model.CidadeModel;
+import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-
-@ApiModel("CidadesModel")
+//@ApiModel("CidadesModel")
 @Data
 public class CidadesModelOpenApi {
 
 	private CidadeEmbeddedModelOpenApi _embedded;
 	private Links _links;
 	
-	@ApiModel("CidadesEmbeddedModel")
+	//@ApiModel("CidadesEmbeddedModel")
 	@Data
 	public class CidadeEmbeddedModelOpenApi {
 		

@@ -1,15 +1,12 @@
 package com.kelsonthony.algafood.api.v1.openapi.model;
 
-import java.util.List;
-
+import com.kelsonthony.algafood.api.v1.model.PedidoResumoModel;
+import lombok.Data;
 import org.springframework.hateoas.Links;
 
-import com.kelsonthony.algafood.api.v1.model.PedidoResumoModel;
+import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-
-@ApiModel("PedidosResumoModel")
+//@ApiModel("PedidosResumoModel")
 @Data
 public class PedidosResumoModelOpenApi {
 
@@ -17,7 +14,7 @@ public class PedidosResumoModelOpenApi {
 	private Links _links;
 	private PageModelOpenApi page;
 	
-	@ApiModel("PedidosResumoEmbeddedModel")
+	//@ApiModel("PedidosResumoEmbeddedModel")
 	@Data
 	public class PedidosResumoEmbeddedModelOpenApi {
 		

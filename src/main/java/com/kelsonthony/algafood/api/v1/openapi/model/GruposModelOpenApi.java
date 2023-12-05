@@ -1,22 +1,19 @@
 package com.kelsonthony.algafood.api.v1.openapi.model;
 
-import java.util.List;
-
+import com.kelsonthony.algafood.api.v1.model.GrupoModel;
+import lombok.Data;
 import org.springframework.hateoas.Links;
 
-import com.kelsonthony.algafood.api.v1.model.GrupoModel;
+import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-
-@ApiModel("GruposModel")
+//@ApiModel("GruposModel")
 @Data
 public class GruposModelOpenApi {
 
 	private GruposEmbeddedModelOpenApi _embedded;
 	private Links _links;
 	
-	@ApiModel("GruposEmbeddedModel")
+	//@ApiModel("GruposEmbeddedModel")
 	@Data
 	public class GruposEmbeddedModelOpenApi {
 		

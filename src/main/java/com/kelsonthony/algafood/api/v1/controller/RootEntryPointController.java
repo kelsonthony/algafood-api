@@ -1,5 +1,7 @@
 package com.kelsonthony.algafood.api.v1.controller;
 
+import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
+import com.kelsonthony.algafood.core.security.AlgaSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
@@ -7,12 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
-import com.kelsonthony.algafood.core.security.AlgaSecurity;
-
-import springfox.documentation.annotations.ApiIgnore;
-
-@ApiIgnore
+//@ApiIgnore
 @RestController
 @RequestMapping(path = "/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootEntryPointController {

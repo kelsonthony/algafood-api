@@ -1,10 +1,12 @@
 package com.kelsonthony.algafood.core.security.authorizationserver;
 
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.kelsonthony.algafood.domain.model.Usuario;
+import com.kelsonthony.algafood.domain.repository.UsuarioRepository;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -29,13 +31,10 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import com.kelsonthony.algafood.domain.model.Usuario;
-import com.kelsonthony.algafood.domain.repository.UsuarioRepository;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 public class AuthorizationServerConfig {
@@ -47,13 +46,13 @@ public class AuthorizationServerConfig {
 		OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer =
 				new OAuth2AuthorizationServerConfigurer<>();
 		
-		authorizationServerConfigurer.authorizationEndpoint(customizer -> 		customizer.consentPage("/oauth2/consent"));
+		authorizationServerConfigurer.authorizationEndpoint(
+				customizer -> customizer.consentPage("/oauth2/consent"));
 		
 		RequestMatcher endpointsMatcher = authorizationServerConfigurer
 				.getEndpointsMatcher();
 
-		http
-			.requestMatcher(endpointsMatcher)
+		http.requestMatcher(endpointsMatcher)
 			.authorizeRequests(authorizeRequests ->
 				authorizeRequests.anyRequest().authenticated()
 			)
@@ -66,7 +65,9 @@ public class AuthorizationServerConfig {
 
 	@Bean
 	public ProviderSettings providerSettings(AlgaFoodSecurityProperties properties) {
-		return ProviderSettings.builder().issuer(properties.getProviderUrl()).build();
+		return ProviderSettings.builder()
+				.issuer(properties.getProviderUrl())
+				.build();
 	}
 
 	@Bean
@@ -113,9 +114,9 @@ public class AuthorizationServerConfig {
 			if (authentication.getPrincipal() instanceof User) {
 				User user = (User) authentication.getPrincipal();
 
-				Usuario usuario = 				usuarioRepository.findByEmail(user.getUsername()).orElseThrow();
+				Usuario usuario = usuarioRepository.findByEmail(user.getUsername()).orElseThrow();
 
-				Set<String> authorities = new HashSet<String>();
+				Set<String> authorities = new HashSet<>();
 
 				for (GrantedAuthority authority : user.getAuthorities()) {
 					authorities.add(authority.getAuthority());

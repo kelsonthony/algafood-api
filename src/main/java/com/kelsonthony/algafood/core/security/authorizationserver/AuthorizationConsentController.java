@@ -1,11 +1,6 @@
 package com.kelsonthony.algafood.core.security.authorizationserver;
 
-import java.nio.file.AccessDeniedException;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
@@ -17,7 +12,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import lombok.RequiredArgsConstructor;
+import java.nio.file.AccessDeniedException;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,20 +45,20 @@ public class AuthorizationConsentController {
 		
 		Set<String> scopesParaAprovar = new HashSet<String>(Set.of(scopearray));
 		
-		Set<String> scopesAProvadsAnteriormente;
-		
+		Set<String> scopesAprovadosAnteriormente;
+
 		if (consent != null) {
-			scopesAProvadsAnteriormente = consent.getScopes();
-			scopesParaAprovar.removeAll(scopesAProvadsAnteriormente);
+			scopesAprovadosAnteriormente = consent.getScopes();
+			scopesParaAprovar.removeAll(scopesAprovadosAnteriormente);
 		} else {
-			scopesAProvadsAnteriormente = Collections.emptySet();
+			scopesAprovadosAnteriormente = Collections.emptySet();
 		}
 		
 		model.addAttribute("clientId", clientId);
 		model.addAttribute("state", state);
 		model.addAttribute("principalName", principal.getName());
 		model.addAttribute("scopesParaAprovar", scopesParaAprovar);
-		model.addAttribute("scopesAProvadsAnteriormente", scopesAProvadsAnteriormente);
+		model.addAttribute("scopesAprovadosAnteriormente", scopesAprovadosAnteriormente);
 		
 		return "pages/approval";
 	}
