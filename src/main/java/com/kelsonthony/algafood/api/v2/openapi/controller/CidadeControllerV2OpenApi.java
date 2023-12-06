@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.kelsonthony.algafood.api.v2.model.CidadeModelV2;
 import com.kelsonthony.algafood.api.v2.model.input.CidadeInputV2;
 
-import io.swagger.annotations.Api;
 
-@Api(tags = "Cidades")
 public interface CidadeControllerV2OpenApi {
 
 	public CollectionModel<CidadeModelV2> listar();

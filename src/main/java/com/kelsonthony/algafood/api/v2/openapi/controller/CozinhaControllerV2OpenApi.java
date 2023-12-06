@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.kelsonthony.algafood.api.v2.model.CozinhaModelV2;
 import com.kelsonthony.algafood.api.v2.model.input.CozinhaInputV2;
 
-import io.swagger.annotations.Api;
 
-@Api(tags = "Cozinhas")
 public interface CozinhaControllerV2OpenApi {
 
 	public PagedModel<CozinhaModelV2> listar(@PageableDefault(size = 10) Pageable pageable);

@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,13 +13,13 @@ import lombok.Setter;
 @Getter
 public class RestauranteBasicoModel extends RepresentationModel<RestauranteBasicoModel>{
 
-	@ApiModelProperty(value = "ID do restaurante", example = "1", position = 1)
+	
 	private Long id;
 	
-	@ApiModelProperty(value = "Nome do restaurante", example = "Cozinha Mineira", position = 10)
+	
 	private String nome;
 	
-	@ApiModelProperty(value = "Taxa Frete", example = "12.00", position = 20)
+	
 	private BigDecimal taxaFrete;
 	
 	//@ApiModelProperty(position = 25)

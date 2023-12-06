@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kelsonthony.algafood.api.v1.links.AlgaLinks;
 import com.kelsonthony.algafood.core.security.AlgaSecurity;
 
-import springfox.documentation.annotations.ApiIgnore;
 
-@ApiIgnore
 @RestController
 @RequestMapping(path = "/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootEntryPointController {
