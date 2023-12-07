@@ -2,6 +2,7 @@ package com.kelsonthony.algafood.core.email;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @ConfigurationProperties("algafood.email")
 public class EmailProperties {
 
+	@Value("${algafood.email.impl}")
 	private Implementacao Impl = Implementacao.FAKE;
 	
 	@NotNull

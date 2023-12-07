@@ -1,10 +1,10 @@
 set foreign_key_checks = 0;
 
-lock tables cidade write, cozinha write, estado write, forma_pagamento write,
-	grupo write, grupo_permissao write, permissao write,
-	produto write, restaurante write, restaurante_forma_pagamento write,
-	restaurante_usuario_responsavel write, usuario write, usuario_grupo write,
-	pedido write, item_pedido write, foto_produto write, oauth_client_details write; 
+#lock tables cidade write, cozinha write, estado write, forma_pagamento write,
+	#grupo write, grupo_permissao write, permissao write,
+	#produto write, restaurante write, restaurante_forma_pagamento write,
+	#restaurante_usuario_responsavel write, usuario write, usuario_grupo write,
+	#pedido write, item_pedido write, foto_produto write, oauth_client_details write; 
 
 delete from cidade;
 delete from cozinha;
@@ -201,7 +201,7 @@ insert into oauth_client_details (
 )
 values (
   'foodanalytics', null, '$2y$12$fahbH37S2pyk1RPuIHKP.earzFmgAJJGo26rE.59vf4wwiiTKHnzO',
-  'READ,WRITE', 'authorization_code', 'http://127.0.0.1:5500', null,
+  'READ,WRITE', 'authorization_code', 'http://127.0.0.1:5501/foodanalytics-client/foodanalytics-client-pkce/index.html', null,
   null, null, null
 );
 
@@ -216,4 +216,4 @@ values (
   null, null, null
 );
 
-unlock tables;
+#unlock tables;
