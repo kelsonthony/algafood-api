@@ -1,9 +1,6 @@
 //package com.kelsonthony.algafood.core.security.authorizationserver;
 //
-//import java.nio.file.AccessDeniedException;
-//import java.security.Principal;
-//import java.util.List;
-//
+//import lombok.RequiredArgsConstructor;
 //import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 //import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 //import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
@@ -17,7 +14,9 @@
 //import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 //
-//import lombok.RequiredArgsConstructor;
+//import java.nio.file.AccessDeniedException;
+//import java.security.Principal;
+//import java.util.List;
 //
 //@Controller
 //@RequiredArgsConstructor
