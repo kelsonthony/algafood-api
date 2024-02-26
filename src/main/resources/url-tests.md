@@ -80,6 +80,11 @@ https://api.kelsonthony.com.br/oauth/authorize?response_type=code&client_id=food
 
 http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web2&state=abc123&redirect_uri=http://127.0.0.1:8088/authorized&scope=READ%20WRITE&code_challenge=bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA&code_challenge_method=S256
 
+1.2 com server para frontend
+
+http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web2&state=abc123&redirect_uri=http://127.0.0.1:5501/authorized.html&scope=READ%20WRITE&code_challenge=bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA&code_challenge_method=S256
+
+
 02. Testando o fluxo com o fluxo Refresh Token
 
 http://localhost:8087/oauth2/authorize?response_type=code&client_id=algafood-web&state=abcd&redirect_uri=http://127.0.0.1:8087/authorized&scope=READ%20WRITE&code_challenge=iNQmb9TmM40TuEX88olXnSCciXgjuSF9o-Fhk28DFYk&code_challenge_method=S256

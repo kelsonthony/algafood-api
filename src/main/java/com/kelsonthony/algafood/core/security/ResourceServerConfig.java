@@ -25,4 +25,6 @@ public class ResourceServerConfig {
 		return http.formLogin(Customizer.withDefaults()).build();
 	}
 
+
+
 }
