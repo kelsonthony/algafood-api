@@ -78,7 +78,7 @@ https://api.kelsonthony.com.br/oauth/authorize?response_type=code&client_id=food
 01. Testando o fluxo Authorization Code + PKCE + S256 
  1.1 Para gerar o code_challenge, pegar o valor do state, exemplo: abc link: https://tonyxu-io.github.io/pkce-generator/
 
-http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web2&state=abc123&redirect_uri=http://127.0.0.1:8088/authorized&scope=READ%20WRITE&code_challenge=bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA&code_challenge_method=S256
+http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web&state=abc123&redirect_uri=http://127.0.0.1:8088/authorized&scope=READ%20WRITE&code_challenge=bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA&code_challenge_method=S256
 
 1.2 com server para frontend
 
