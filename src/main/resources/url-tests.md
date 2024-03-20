@@ -87,7 +87,7 @@ http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web
 
 02. Testando o fluxo com o fluxo Refresh Token
 
-http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web&state=abcd&redirect_uri=http://127.0.0.1:8087/authorized&scope=READ%20WRITE&code_challenge=iNQmb9TmM40TuEX88olXnSCciXgjuSF9o-Fhk28DFYk&code_challenge_method=S256
+http://127.0.0.1:8088/oauth2/authorize?response_type=code&client_id=algafood-web&state=abcd&redirect_uri=http://127.0.0.1:5501/index.html&scope=READ%20WRITE&code_challenge=iNQmb9TmM40TuEX88olXnSCciXgjuSF9o-Fhk28DFYk&code_challenge_method=S256
 
 http://localhost:8088/oauth2/authorize?response_type=code&client_id=algafood-web&state=MC42Njc4MTYyMjExNjQ0OTEx&redirect_uri=http://127.0.0.1:5501/foodanalytics-client-authorizationcode/index.html
 
